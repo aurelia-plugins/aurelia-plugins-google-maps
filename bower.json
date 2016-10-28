@@ -1,0 +1,30 @@
+{
+  "name": "aurelia-plugins-google-maps",
+  "version": "1.0.0",
+  "description": "A Google Maps plugin for Aurelia.",
+  "keywords": [
+    "aurelia",
+    "plugins",
+    "plugin",
+    "google",
+    "maps"
+  ],
+  "homepage": "https://github.com/aurelia-plugins/aurelia-plugins-google-maps",
+  "main": "dist/commonjs/aurelia-plugins-google-maps.js",
+  "moduleType": "node",
+  "license": "MIT",
+  "authors": [
+    "Bart Lenaerts <bart@itprosolutions.be> (http://itprosolutions.be/)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/aurelia-plugins/aurelia-plugins-google-maps"
+  },
+  "dependencies": {
+    "aurelia-binding": "^1.0.9",
+    "aurelia-dependency-injection": "^1.2.0",
+    "aurelia-event-aggregator": "^1.0.0",
+    "aurelia-task-queue": "^1.1.0",
+    "aurelia-templating": "^1.1.2"
+  }
+}
