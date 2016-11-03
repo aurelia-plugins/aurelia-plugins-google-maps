@@ -310,7 +310,7 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
   _mapClick(event) {
     if (this._element.attributes['map-click.delegate']) {
       var clickEvent;
-      if (window.CustomEvent) clickEvent = new CustomEvent('map-click', { bubbles: true, details: event });else {
+      if (window.CustomEvent) clickEvent = new CustomEvent('map-click', { bubbles: true, detail: event });else {
         clickEvent = document.createEvent('CustomEvent');
         clickEvent.initCustomEvent('map-click', true, true, { data: event });
       }
