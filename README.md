@@ -69,6 +69,8 @@ Once Google Maps is configured, to use it simply add the custom element `<aup-go
 
 The `aurelia-plugins:google-maps:api-script-loaded` event is published when the Google Maps API Script is completely loaded. A Promise is returned as payload. This event is used together with other Aurelia Plugins in combination with the option `loadApiScript=false` to make sure the Google Maps API Script is loaded only once.
 
+Google Maps needs at least the library `geometry`. Perhaps the other Aurelia Plugin that loads the Google Maps API Script doesn't include the library `geometry` by default. If so, add it to the `libraries` option of the other Aurelia Plugin.
+
 ### Latitude/Longitude
 
 Provide standard latitude and longitude coordinates to center the map.
