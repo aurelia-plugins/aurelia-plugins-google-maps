@@ -1,4 +1,4 @@
-var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
+var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8;
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
@@ -81,7 +81,9 @@ export var GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
 
     _initDefineProp(this, 'markers', _descriptor6, this);
 
-    _initDefineProp(this, 'zoom', _descriptor7, this);
+    _initDefineProp(this, 'options', _descriptor7, this);
+
+    _initDefineProp(this, 'zoom', _descriptor8, this);
 
     this._bindingEngine = bindingEngine;
     this._config = config;
@@ -444,7 +446,7 @@ export var GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
               return this._scriptPromise;
 
             case 2:
-              options = Object.assign(this._config.get('options'), { center: this._getCenter(), mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
+              options = Object.assign(this.options || this._config.get('options'), { center: this._getCenter(), mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
 
               this._map = new window.google.maps.Map(this._element, options);
               this._eventAggregator.publish('aurelia-plugins:google-maps:map-created', this._map);
@@ -604,7 +606,12 @@ export var GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
   initializer: function initializer() {
     return [];
   }
-}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'zoom', [bindable], {
+}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'options', [bindable], {
+  enumerable: true,
+  initializer: function initializer() {
+    return null;
+  }
+}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'zoom', [bindable], {
   enumerable: true,
   initializer: function initializer() {
     return 8;

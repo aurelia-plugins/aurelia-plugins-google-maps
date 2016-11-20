@@ -80,7 +80,7 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
     throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
   }
 
-  var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
+  var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8;
 
   var GoogleMaps = exports.GoogleMaps = (_dec = (0, _aureliaTemplating.customElement)('aup-google-maps'), _dec2 = (0, _aureliaTemplating.noView)(), _dec3 = (0, _aureliaDependencyInjection.inject)(Element, _aureliaBinding.BindingEngine, _aureliaPluginsGoogleMapsConfig.Config, _aureliaEventAggregator.EventAggregator, _aureliaTaskQueue.TaskQueue), _dec(_class = _dec2(_class = _dec3(_class = (_class2 = function () {
     function GoogleMaps(element, bindingEngine, config, eventAggregator, taskQueue) {
@@ -108,7 +108,9 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
 
       _initDefineProp(this, 'markers', _descriptor6, this);
 
-      _initDefineProp(this, 'zoom', _descriptor7, this);
+      _initDefineProp(this, 'options', _descriptor7, this);
+
+      _initDefineProp(this, 'zoom', _descriptor8, this);
 
       this._bindingEngine = bindingEngine;
       this._config = config;
@@ -471,7 +473,7 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
                 return this._scriptPromise;
 
               case 2:
-                options = Object.assign(this._config.get('options'), { center: this._getCenter(), mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
+                options = Object.assign(this.options || this._config.get('options'), { center: this._getCenter(), mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
 
                 this._map = new window.google.maps.Map(this._element, options);
                 this._eventAggregator.publish('aurelia-plugins:google-maps:map-created', this._map);
@@ -631,7 +633,12 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
     initializer: function initializer() {
       return [];
     }
-  }), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'zoom', [_aureliaTemplating.bindable], {
+  }), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'options', [_aureliaTemplating.bindable], {
+    enumerable: true,
+    initializer: function initializer() {
+      return null;
+    }
+  }), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'zoom', [_aureliaTemplating.bindable], {
     enumerable: true,
     initializer: function initializer() {
       return 8;

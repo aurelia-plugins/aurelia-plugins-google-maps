@@ -39,6 +39,7 @@ export class GoogleMaps {
   @bindable longitude = 0;
   @bindable mapTypeId = 'ROADMAP';
   @bindable markers = [];
+  @bindable options = null;
   @bindable zoom = 8;
 
   // CONSTRUCTOR
@@ -164,7 +165,7 @@ export class GoogleMaps {
 
   async _initialize() {
     await this._scriptPromise;
-    var options = Object.assign(this._config.get('options'), { center: this._getCenter(), mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
+    var options = Object.assign(this.options || this._config.get('options'), { center: this._getCenter(), mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
     this._map = new window.google.maps.Map(this._element, options);
     this._eventAggregator.publish('aurelia-plugins:google-maps:map-created', this._map);
     this._mapResolve();

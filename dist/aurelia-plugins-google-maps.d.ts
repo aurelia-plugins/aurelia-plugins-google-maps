@@ -39,6 +39,7 @@ export declare class GoogleMaps {
   longitude: any;
   mapTypeId: any;
   markers: any;
+  options: any;
   zoom: any;
   
   // CONSTRUCTOR

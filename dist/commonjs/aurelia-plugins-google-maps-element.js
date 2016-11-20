@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.GoogleMaps = undefined;
 
-var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
+var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8;
 
 var _aureliaBinding = require('aurelia-binding');
 
@@ -92,7 +92,9 @@ var GoogleMaps = exports.GoogleMaps = (_dec = (0, _aureliaTemplating.customEleme
 
     _initDefineProp(this, 'markers', _descriptor6, this);
 
-    _initDefineProp(this, 'zoom', _descriptor7, this);
+    _initDefineProp(this, 'options', _descriptor7, this);
+
+    _initDefineProp(this, 'zoom', _descriptor8, this);
 
     this._bindingEngine = bindingEngine;
     this._config = config;
@@ -455,7 +457,7 @@ var GoogleMaps = exports.GoogleMaps = (_dec = (0, _aureliaTemplating.customEleme
               return this._scriptPromise;
 
             case 2:
-              options = Object.assign(this._config.get('options'), { center: this._getCenter(), mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
+              options = Object.assign(this.options || this._config.get('options'), { center: this._getCenter(), mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
 
               this._map = new window.google.maps.Map(this._element, options);
               this._eventAggregator.publish('aurelia-plugins:google-maps:map-created', this._map);
@@ -615,7 +617,12 @@ var GoogleMaps = exports.GoogleMaps = (_dec = (0, _aureliaTemplating.customEleme
   initializer: function initializer() {
     return [];
   }
-}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'zoom', [_aureliaTemplating.bindable], {
+}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'options', [_aureliaTemplating.bindable], {
+  enumerable: true,
+  initializer: function initializer() {
+    return null;
+  }
+}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'zoom', [_aureliaTemplating.bindable], {
   enumerable: true,
   initializer: function initializer() {
     return 8;

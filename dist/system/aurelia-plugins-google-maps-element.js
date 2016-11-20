@@ -3,7 +3,7 @@
 System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-event-aggregator', 'aurelia-task-queue', 'aurelia-templating', './aurelia-plugins-google-maps-config'], function (_export, _context) {
   "use strict";
 
-  var BindingEngine, inject, EventAggregator, TaskQueue, bindable, customElement, noView, Config, _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, GoogleMaps;
+  var BindingEngine, inject, EventAggregator, TaskQueue, bindable, customElement, noView, Config, _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, GoogleMaps;
 
   function _asyncToGenerator(fn) {
     return function () {
@@ -122,7 +122,9 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
 
           _initDefineProp(this, 'markers', _descriptor6, this);
 
-          _initDefineProp(this, 'zoom', _descriptor7, this);
+          _initDefineProp(this, 'options', _descriptor7, this);
+
+          _initDefineProp(this, 'zoom', _descriptor8, this);
 
           this._bindingEngine = bindingEngine;
           this._config = config;
@@ -485,7 +487,7 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
                     return this._scriptPromise;
 
                   case 2:
-                    options = Object.assign(this._config.get('options'), { center: this._getCenter(), mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
+                    options = Object.assign(this.options || this._config.get('options'), { center: this._getCenter(), mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
 
                     this._map = new window.google.maps.Map(this._element, options);
                     this._eventAggregator.publish('aurelia-plugins:google-maps:map-created', this._map);
@@ -645,7 +647,12 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
         initializer: function initializer() {
           return [];
         }
-      }), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'zoom', [bindable], {
+      }), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'options', [bindable], {
+        enumerable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      }), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'zoom', [bindable], {
         enumerable: true,
         initializer: function initializer() {
           return 8;
