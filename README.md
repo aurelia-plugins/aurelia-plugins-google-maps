@@ -76,9 +76,7 @@ Google Maps needs at least the library `geometry`. Perhaps the other Aurelia Plu
 Provide standard latitude and longitude coordinates to center the map.
 
 ```html
-<template>
-    <aup-google-maps latitude="51.037861" longitude="4.240528"></aup-google-maps>
-</template>
+<aup-google-maps latitude="51.037861" longitude="4.240528"></aup-google-maps>
 ```
 
 ### Address
@@ -86,9 +84,7 @@ Provide standard latitude and longitude coordinates to center the map.
 Provide a string as an address which gets geocoded to center the map on this particular address.
 
 ```html
-<template>
-    <aup-google-maps address="1600 Amphitheatre Parkway. Mountain View, CA 94043"></aup-google-maps>
-</template>
+<aup-google-maps address="1600 Amphitheatre Parkway. Mountain View, CA 94043"></aup-google-maps>
 ```
 
 ### Zoom
@@ -96,9 +92,7 @@ Provide a string as an address which gets geocoded to center the map on this par
 Add a `zoom` attribute and supply a value to choose an appropriate zoom level. By default the zoom level is 8.
 
 ```html
-<template>
-    <aup-google-maps latitude="51.037861" longitude="4.240528" zoom="15"></aup-google-maps>
-</template>
+<aup-google-maps latitude="51.037861" longitude="4.240528" zoom="15"></aup-google-maps>
 ```
 
 ### Map Type ID
@@ -111,19 +105,31 @@ Set to one of the following Google Basic Map Type. See the [Google Maps document
 * TERRAIN	- This map type displays maps with physical features such as terrain and vegetation.
 
 ```html
-<template>
-    <aup-google-maps latitude="51.037861" longitude="4.240528" map-type-id="HYBRID"></aup-google-maps>
-</template>
+<aup-google-maps latitude="51.037861" longitude="4.240528" map-type-id="HYBRID"></aup-google-maps>
+```
+
+### Options
+
+When you add `options` to the config, these options are used on all instances of `<aup-google-maps>`. You can set specific options on each `<aup-google-maps>` instance via the optional bindable attribute `options`.
+
+```html
+<aup-google-maps options="options1"></aup-google-maps>
+<aup-google-maps options="options2"></aup-google-maps>
+```
+
+```javascript
+export class App {
+  options1: { panControl: true, panControlOptions: { position: 9 } };
+  options2: { styles: [/* add your styles here */] };
+}
 ```
 
 ### Markers
 
-Markers can be bound to `<aup-google-maps></aup-google-maps>` with the `markers` attribute. The markers attribute should be an array of objects with at minimum the `latitude` and `longitude` key/value pairs.
+Markers can be bound to `<aup-google-maps>` with the `markers` attribute. The markers attribute should be an array of objects with at minimum the `latitude` and `longitude` key/value pairs.
 
 ```html
-<template>
-    <aup-google-maps latitude="51.037861" longitude="4.240528" markers.bind="myMarkers"></aup-google-maps>
-</template>
+<aup-google-maps latitude="51.037861" longitude="4.240528" markers.bind="myMarkers"></aup-google-maps>
 ```
 
 ```javascript
@@ -193,9 +199,7 @@ When the `map-click` event is triggered, the `aurelia-plugins:google-maps:map-cl
 Automatically close the previous opened infoWindow when opening a new one, or when clicking somewhere on the map (assuming the `map-click` event is not set up).
 
 ```html
-<template>
-    <aup-google-maps auto-close-info-windows="true" latitude="51.037861" longitude="4.240528"  markers.bind="myMarkers"></aup-google-maps>
-</template>
+<aup-google-maps auto-close-info-windows="true" latitude="51.037861" longitude="4.240528"  markers.bind="myMarkers"></aup-google-maps>
 ```
 
 ### Events
