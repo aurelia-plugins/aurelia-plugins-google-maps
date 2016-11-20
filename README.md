@@ -174,7 +174,7 @@ export class App {
 
 ### Map Click Event
 
-It is possible to catch the map click event as specified by the [Google Maps documentation](https://developers.google.com/maps/documentation/javascript/events#ShapeEvents). The `map-click` event is added as a CustomEvent to the `<aup-google-maps>` DOM element with the event data added to the `details` key.
+It is possible to catch the map click event as specified by the [Google Maps documentation](https://developers.google.com/maps/documentation/javascript/events#ShapeEvents). The `map-click` event is added as a CustomEvent to the `<aup-google-maps>` DOM element with the event data added to the `detail` key.
 
 ```html
 <aup-google-maps map-click.delegate="myEventHandler($event)"></aup-google-maps>
@@ -185,7 +185,7 @@ export class App {
   constructor() {}
 
   myEventHandler(event) {
-    var latLng = event.details.latLng;
+    var latLng = event.detail.latLng;
     var lat = latLng.lat();
     var lng = latLng.lng();
   }
