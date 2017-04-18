@@ -47,7 +47,7 @@ export async function configure(aurelia) {
   aurelia.use
     .plugin('aurelia-plugins-google-maps', config => {
       config.options({
-        apiScriptLoadedEvent: 'aurelia-plugins:google-places-autocomplete:api-script-loaded', // if loadApiScript is false, the event that is subscribed to to know when the Google Maps API is loaded by another plugin
+        apiScriptLoadedEvent: 'aurelia-plugins:google-places-autocomplete:api-script-loaded', // if loadApiScript is false, the event that is subscribed to, to know when the Google Maps API is loaded by another plugin
         key: '', // your Google API key retrieved from the Google Developer Console
         language: 'en', // see https://developers.google.com/maps/documentation/javascript/localization
         libraries: 'geometry', // see https://developers.google.com/maps/documentation/javascript/libraries
@@ -113,12 +113,14 @@ Set to one of the following Google Basic Map Type. See the [Google Maps document
 When you add `options` to the config, these options are used on all instances of `<aup-google-maps>`. You can set specific options on each `<aup-google-maps>` instance via the optional bindable attribute `options`.
 
 ```html
-<aup-google-maps options="options1"></aup-google-maps>
-<aup-google-maps options="options2"></aup-google-maps>
+<aup-google-maps latitude="51.037861" longitude="4.240528" options.bind="options1"></aup-google-maps>
+<aup-google-maps latitude="51.037861" longitude="4.240528" options.bind="options2"></aup-google-maps>
 ```
 
 ```javascript
 export class App {
+  constructor() {}
+
   options1: { panControl: true, panControlOptions: { position: 9 } };
   options2: { styles: [/* add your styles here */] };
 }
@@ -136,7 +138,7 @@ Markers can be bound to `<aup-google-maps>` with the `markers` attribute. The ma
 export class App {
   constructor() {}
 
-  var myMarkers = [
+  const myMarkers = [
     {
       animation: google.maps.Animation.BOUNCE,
       custom: { id: 1234, ... },
@@ -161,12 +163,12 @@ export class App {
 
 * `latitude` (required) - float
 * `longitude` (required) - float
-* `icon` (optional) - string|Icon|Symbol - see [documentation](<https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions>)
-* `label` (optional) - string|MarkerLabel - see [documentation](<https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions>)
-* `title` (optional) - string - see [documentation](<https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions>)
+* `icon` (optional) - string|Icon|Symbol - see [Google Maps documentation](<https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions>)
+* `label` (optional) - string|MarkerLabel - see [Google Maps documentation](<https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions>)
+* `title` (optional) - string - see [Google Maps documentation](<https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions>)
 * `custom` (optional) - object - store arbitrary data (e.g. an `id` field) in this object, retrieve it from the `aurelia-plugins:google-maps:marker-click` event payload
-* `animation` (optional)  - google.maps.Animation constant - see [documentation](<https://developers.google.com/maps/documentation/javascript/3.exp/reference#Animation>)
-* `infoWindow` (optional) - object - if set, the `aurelia-plugins:google-maps:marker-click` event will not be called, instead an infoWindow containing the given content will be shown - see [documentation](<https://developers.google.com/maps/documentation/javascript/infowindows>)
+* `animation` (optional)  - google.maps.Animation constant - see [Google Maps documentation](<https://developers.google.com/maps/documentation/javascript/3.exp/reference#Animation>)
+* `infoWindow` (optional) - object - if set, the `aurelia-plugins:google-maps:marker-click` event will not be called, instead an infoWindow containing the given content will be shown - see [Google Maps documentation](<https://developers.google.com/maps/documentation/javascript/infowindows>)
   * `content` (required) - string|Node - content to display in the InfoWindow. This can be an HTML element, a plain-text string, or a string containing HTML. 
   * `pixelOffset` (optional) - google.maps.Size - the offset, in pixels, of the tip of the info window from the point on the map at whose geographical coordinates the info window is anchored.
   * `position` (optional) - google.maps.LatLng - the LatLng at which to display this InfoWindow.
@@ -177,7 +179,7 @@ export class App {
 It is possible to catch the map click event as specified by the [Google Maps documentation](https://developers.google.com/maps/documentation/javascript/events#ShapeEvents). The `map-click` event is added as a CustomEvent to the `<aup-google-maps>` DOM element with the event data added to the `detail` key.
 
 ```html
-<aup-google-maps map-click.delegate="myEventHandler($event)"></aup-google-maps>
+<aup-google-maps latitude="51.037861" longitude="4.240528" map-click.delegate="myEventHandler($event)"></aup-google-maps>
 ```
 
 ```javascript
@@ -185,9 +187,9 @@ export class App {
   constructor() {}
 
   myEventHandler(event) {
-    var latLng = event.detail.latLng;
-    var lat = latLng.lat();
-    var lng = latLng.lng();
+    const latLng = event.detail.latLng;
+    const lat = latLng.lat();
+    const lng = latLng.lng();
   }
 }
 ```
