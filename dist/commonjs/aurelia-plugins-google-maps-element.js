@@ -318,7 +318,7 @@ let GoogleMaps = exports.GoogleMaps = (_dec = (0, _aureliaTemplating.customEleme
   }
 
   _setCenter(latitude, longitude) {
-    this._map._setCenter(this._getCenter(latitude, longitude));
+    this._map.setCenter(this._getCenter(latitude, longitude));
     this._publishBoundsChangedEvent();
   }
 
@@ -336,7 +336,7 @@ let GoogleMaps = exports.GoogleMaps = (_dec = (0, _aureliaTemplating.customEleme
   }
 
   _setMapTypeId(mapTypeId) {
-    this._map._setMapTypeId(this._getMapTypeId(mapTypeId));
+    this._map.setMapTypeId(this._getMapTypeId(mapTypeId));
   }
 
   _getZoom(zoom) {
@@ -344,7 +344,7 @@ let GoogleMaps = exports.GoogleMaps = (_dec = (0, _aureliaTemplating.customEleme
   }
 
   _setZoom(zoom) {
-    this._map._setZoom(this._getZoom(zoom));
+    this._map.setZoom(this._getZoom(zoom));
   }
 
   _createMarker(marker) {
@@ -464,7 +464,7 @@ let GoogleMaps = exports.GoogleMaps = (_dec = (0, _aureliaTemplating.customEleme
   }
 
   _markerPan(marker) {
-    this._map._setZoom(17);
+    this._map.setZoom(17);
     this._map.panTo(marker.position);
   }
 
