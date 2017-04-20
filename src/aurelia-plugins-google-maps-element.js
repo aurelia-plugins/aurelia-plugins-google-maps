@@ -17,20 +17,20 @@ import {Config} from './aurelia-plugins-google-maps-config';
 // PUBLIC CLASS
 export class GoogleMaps {
   // PRIVATE PROPERTIES (DI)
-  bindingEngine;
-  config;
-  element;
-  eventAggregator;
-  taskQueue;
+  _bindingEngine;
+  _config;
+  _element;
+  _eventAggregator;
+  _taskQueue;
 
   // PRIVATE PROPERTIES (CUSTOM)
-  map = null;
-  mapMarkers = [];
-  mapPromise = null;
-  mapResolve = null;
-  previousInfoWindow = null;
-  scriptPromise = null;
-  subscription = null;
+  _map = null;
+  _mapPromise = null;
+  _mapResolve = null;
+  _markers = [];
+  _previousInfoWindow = null;
+  _scriptPromise = null;
+  _subscription = null;
 
   // BINDABLE PROPERTIES
   @bindable address = null;
@@ -44,83 +44,83 @@ export class GoogleMaps {
 
   // CONSTRUCTOR
   constructor(element, bindingEngine, config, eventAggregator, taskQueue) {
-    this.bindingEngine = bindingEngine;
-    this.config = config;
-    this.element = element;
-    this.eventAggregator = eventAggregator;
-    this.taskQueue = taskQueue;
-    if (!this.config.get('key')) return console.error('No Google API key has been specified.');
-    this.mapPromise = new Promise(resolve => { this.mapResolve = resolve; });
-    this.eventAggregator.subscribe('aurelia-plugins:google-maps:marker-highlight', data => this.markerHighlight(this.mapMarkers[data.index]));
-    this.eventAggregator.subscribe('aurelia-plugins:google-maps:marker-pan', data => this.markerPan(this.mapMarkers[data.index]));
-    this.eventAggregator.subscribe('aurelia-plugins:google-maps:marker-unhighlight', data => this.markerUnhighlight(this.mapMarkers[data.index]));
-    if (this.config.get('loadApiScript')) { this.loadApiScript(); this.initialize(); return; }
-    this.eventAggregator.subscribe(this.config.get('apiScriptLoadedEvent'), scriptPromise => { this.scriptPromise = scriptPromise; this.initialize(); });
+    this._bindingEngine = bindingEngine;
+    this._config = config;
+    this._element = element;
+    this._eventAggregator = eventAggregator;
+    this._taskQueue = taskQueue;
+    if (!this._config.get('key')) return console.error('No Google API key has been specified.');
+    this._mapPromise = new Promise(resolve => { this._mapResolve = resolve; });
+    this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-highlight', data => this._markerHighlight(this._markers[data.index]));
+    this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-pan', data => this._markerPan(this._markers[data.index]));
+    this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-unhighlight', data => this._markerUnhighlight(this._markers[data.index]));
+    if (this._config.get('loadApiScript')) { this._loadApiScript(); this._initialize(); return; }
+    this._eventAggregator.subscribe(this._config.get('apiScriptLoadedEvent'), scriptPromise => { this._scriptPromise = scriptPromise; this._initialize(); });
   }
 
   // BINDABLE METHODS
   async addressChanged(newValue) {
-    await this.mapPromise;
+    await this._mapPromise;
     if (!newValue) return;
-    this.taskQueue.queueMicroTask(() => this.setAddress(newValue));
+    this._taskQueue.queueMicroTask(() => this._setAddress(newValue));
   }
 
   async latitudeChanged(newValue) {
-    await this.mapPromise;
+    await this._mapPromise;
     if (!newValue) return;
-    this.taskQueue.queueMicroTask(() => this.setCenter(newValue, null));
+    this._taskQueue.queueMicroTask(() => this._setCenter(newValue, null));
   }
 
   async longitudeChanged(newValue) {
-    await this.mapPromise;
+    await this._mapPromise;
     if (!newValue) return;
-    this.taskQueue.queueMicroTask(() => this.setCenter(null, newValue));
+    this._taskQueue.queueMicroTask(() => this._setCenter(null, newValue));
   }
 
   async mapTypeIdChanged(newValue) {
-    await this.mapPromise;
+    await this._mapPromise;
     if (!newValue) return;
-    this.taskQueue.queueMicroTask(() => this.setMapTypeId(newValue));
+    this._taskQueue.queueMicroTask(() => this._setMapTypeId(newValue));
   }
 
   async markersChanged(newValue) {
-    await this.mapPromise;
+    await this._mapPromise;
     if (!newValue || !newValue.length) return;
-    if (this.subscription) {
-      this.subscription.dispose();
-      this.mapMarkers.forEach(marker => marker.setMap(null));
-      this.mapMarkers = [];
+    if (this._subscription) {
+      this._subscription.dispose();
+      this._markers.forEach(marker => marker.setMap(null));
+      this._markers = [];
     }
-    this.subscription = this.bindingEngine.collectionObserver(this.markers).subscribe(splices => this.spliceMarkers(splices));
-    newValue.forEach(marker => this.createMarker(marker));
-    this.eventAggregator.publish('aurelia-plugins:google-maps:markers-changed');
+    this._subscription = this._bindingEngine.collectionObserver(this.markers).subscribe(splices => this._spliceMarkers(splices));
+    newValue.forEach(marker => this._createMarker(marker));
+    this._eventAggregator.publish('aurelia-plugins:google-maps:markers-changed');
   }
 
   async zoomChanged(newValue) {
-    await this.mapPromise;
+    await this._mapPromise;
     if (!newValue) return;
-    this.taskQueue.queueMicroTask(() => this.setZoom(newValue));
+    this._taskQueue.queueMicroTask(() => this._setZoom(newValue));
   }
 
   // PRIVATE PROPERTY METHODS
-  setAddress(address) {
+  _setAddress(address) {
     const geocoder = new window.google.maps.Geocoder();
     geocoder.geocode({ address: address || this.address }, (results, status) => {
       if (status !== window.google.maps.GeocoderStatus.OK) return;
-      this.setCenter(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+      this._setCenter(results[0].geometry.location.lat(), results[0].geometry.location.lng());
     });
   }
 
-  getCenter(latitude, longitude) {
+  _getCenter(latitude, longitude) {
     return new window.google.maps.LatLng(parseFloat(latitude || this.latitude), parseFloat(longitude || this.longitude));
   }
 
-  setCenter(latitude, longitude) {
-    this.map.setCenter(this.getCenter(latitude, longitude));
-    this.publishBoundsChangedEvent();
+  _setCenter(latitude, longitude) {
+    this._map._setCenter(this._getCenter(latitude, longitude));
+    this._publishBoundsChangedEvent();
   }
 
-  getMapTypeId(mapTypeId) {
+  _getMapTypeId(mapTypeId) {
     switch ((mapTypeId || this.mapTypeId).toUpperCase()) {
       case 'HYBRID': return window.google.maps.MapTypeId.HYBRID;
       case 'SATELLITE': return window.google.maps.MapTypeId.SATELLITE;
@@ -129,145 +129,145 @@ export class GoogleMaps {
     }
   }
 
-  setMapTypeId(mapTypeId) {
-    this.map.setMapTypeId(this.getMapTypeId(mapTypeId));
+  _setMapTypeId(mapTypeId) {
+    this._map._setMapTypeId(this._getMapTypeId(mapTypeId));
   }
 
-  getZoom(zoom) {
+  _getZoom(zoom) {
     return parseInt(zoom || this.zoom, 10);
   }
 
-  setZoom(zoom) {
-    this.map.setZoom(this.getZoom(zoom));
+  _setZoom(zoom) {
+    this._map._setZoom(this._getZoom(zoom));
   }
 
   // PRIVATE METHODS
-  createMarker(marker) {
+  _createMarker(marker) {
     const mapMarker = new window.google.maps.Marker({
       animation: marker.animation,
       icon: marker.icon,
       label: marker.label,
-      map: this.map,
+      map: this._map,
       position: new window.google.maps.LatLng(parseFloat(marker.latitude), parseFloat(marker.longitude)),
       title: marker.title
     });
     if (marker.custom) mapMarker.custom = marker.custom;
     if (marker.infoWindow) {
       mapMarker.infoWindow = new window.google.maps.InfoWindow({ content: marker.infoWindow.content, pixelOffset: marker.infoWindow.pixelOffset, position: marker.infoWindow.position, maxWidth: marker.infoWindow.maxWidth });
-      mapMarker.infoWindow.addListener('domready', () => this.infoWindowDomReady(mapMarker.infoWindow));
+      mapMarker.infoWindow.addListener('domready', () => this._infoWindowDomReady(mapMarker.infoWindow));
     }
-    mapMarker.addListener('click', () => this.markerClick(mapMarker));
-    mapMarker.addListener('dblclick', () => this.markerPan(mapMarker));
-    mapMarker.addListener('mouseout', () => this.markerMouseOut(mapMarker));
-    mapMarker.addListener('mouseover', () => this.markerMouseOver(mapMarker));
-    this.mapMarkers.push(mapMarker);
+    mapMarker.addListener('click', () => this._markerClick(mapMarker));
+    mapMarker.addListener('dblclick', () => this._markerPan(mapMarker));
+    mapMarker.addListener('mouseout', () => this._markerMouseOut(mapMarker));
+    mapMarker.addListener('mouseover', () => this._markerMouseOver(mapMarker));
+    this._markers.push(mapMarker);
   }
 
-  async initialize() {
-    await this.scriptPromise;
-    const options = Object.assign(this.options || this.config.get('options'), { center: this.getCenter(), mapTypeId: this.getMapTypeId(), zoom: this.getZoom() });
-    this.map = new window.google.maps.Map(this.element, options);
-    this.eventAggregator.publish('aurelia-plugins:google-maps:map-created', this.map);
-    this.mapResolve();
-    this.map.addListener('click', event => this.mapClick(event));
-    this.map.addListener('dragend', () => this.publishBoundsChangedEvent());
-    this.map.addListener('zoom_changed', () => this.publishBoundsChangedEvent());
+  async _initialize() {
+    await this._scriptPromise;
+    const options = Object.assign(this.options || this._config.get('options'), { center: this._getCenter(), mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
+    this._map = new window.google.maps.Map(this._element, options);
+    this._eventAggregator.publish('aurelia-plugins:google-maps:map-created', this._map);
+    this._mapResolve();
+    this._map.addListener('click', event => this._mapClick(event));
+    this._map.addListener('dragend', () => this._publishBoundsChangedEvent());
+    this._map.addListener('zoom_changed', () => this._publishBoundsChangedEvent());
   }
 
-  infoWindowDomReady(infoWindow) {
-    this.eventAggregator.publish('aurelia-plugins:google-maps:infowindow-domready', infoWindow);
+  _infoWindowDomReady(infoWindow) {
+    this._eventAggregator.publish('aurelia-plugins:google-maps:infowindow-domready', infoWindow);
   }
 
-  loadApiScript() {
-    if (this.scriptPromise) return;
+  _loadApiScript() {
+    if (this._scriptPromise) return;
     if (window.google === undefined || window.google.maps === undefined) {
       const script = document.createElement('script');
       script.async = true;
       script.defer = true;
-      script.src = `https://maps.googleapis.com/maps/api/js?callback=aureliaPluginsGoogleMapsCallback&key=${this.config.get('key')}&language=${this.config.get('language')}&libraries=${this.config.get('libraries')}`;
+      script.src = `https://maps.googleapis.com/maps/api/js?callback=aureliaPluginsGoogleMapsCallback&key=${this._config.get('key')}&language=${this._config.get('language')}&libraries=${this._config.get('libraries')}`;
       script.type = 'text/javascript';
       document.body.appendChild(script);
-      this.scriptPromise = new Promise((resolve, reject) => {
+      this._scriptPromise = new Promise((resolve, reject) => {
         window.aureliaPluginsGoogleMapsCallback = () => {
-          this.eventAggregator.publish('aurelia-plugins:google-maps:api-script-loaded', this.scriptPromise);
+          this._eventAggregator.publish('aurelia-plugins:google-maps:api-script-loaded', this._scriptPromise);
           resolve();
         };
         script.onerror = error => reject(error);
       });
     }
     else if (window.google && window.google.maps)
-      this.scriptPromise = new Promise(resolve => resolve());
+      this._scriptPromise = new Promise(resolve => resolve());
   }
 
-  mapClick(event) {
-    if (this.element.attributes['map-click.delegate']) {
-      let clickEvent;
+  _mapClick(event) {
+    if (this._element.attributes['map-click.delegate']) {
+      let customEvent;
       if (window.CustomEvent)
-        clickEvent = new CustomEvent('map-click', { bubbles: true, detail: event });
+        customEvent = new CustomEvent('map-click', { bubbles: true, detail: event });
       else {
-        clickEvent = document.createEvent('CustomEvent');
-        clickEvent.initCustomEvent('map-click', true, true, { data: event });
+        customEvent = document.createEvent('CustomEvent');
+        customEvent.initCustomEvent('map-click', true, true, { data: event });
       }
-      this.element.dispatchEvent(clickEvent);
-      this.eventAggregator.publish('aurelia-plugins:google-maps:map-click', event);
+      this._element.dispatchEvent(customEvent);
+      this._eventAggregator.publish('aurelia-plugins:google-maps:map-click', event);
     }
-    else if (this.autoCloseInfoWindows && this.previousInfoWindow) {
-      this.previousInfoWindow.close();
-      this.previousInfoWindow = null;
+    else if (this.autoCloseInfoWindows && this._previousInfoWindow) {
+      this._previousInfoWindow.close();
+      this._previousInfoWindow = null;
     }
   }
 
-  markerClick(marker) {
+  _markerClick(marker) {
     if (!marker.infoWindow)
-      this.eventAggregator.publish('aurelia-plugins:google-maps:marker-click', marker);
+      this._eventAggregator.publish('aurelia-plugins:google-maps:marker-click', marker);
     else if (this.autoCloseInfoWindows) {
-      if (this.previousInfoWindow) this.previousInfoWindow.close();
-      this.previousInfoWindow = this.previousInfoWindow !== marker.infoWindow ? marker.infoWindow : null;
-      if (this.previousInfoWindow) this.previousInfoWindow.open(this.map, marker);
+      if (this._previousInfoWindow) this._previousInfoWindow.close();
+      this._previousInfoWindow = this._previousInfoWindow !== marker.infoWindow ? marker.infoWindow : null;
+      if (this._previousInfoWindow) this._previousInfoWindow.open(this._map, marker);
     }
     else
-      marker.infoWindow.open(this.map, marker);
+      marker.infoWindow.open(this._map, marker);
   }
 
-  markerHighlight(marker) {
+  _markerHighlight(marker) {
     marker.setIcon(marker.custom.highlightIcon);
     marker.setZIndex(window.google.maps.Marker.MAX_ZINDEX + 1);
   }
 
-  markerMouseOut(marker) {
-    this.eventAggregator.publish('aurelia-plugins:google-maps:marker-mouseout', marker);
+  _markerMouseOut(marker) {
+    this._eventAggregator.publish('aurelia-plugins:google-maps:marker-mouseout', marker);
   }
 
-  markerMouseOver(marker) {
-    this.eventAggregator.publish('aurelia-plugins:google-maps:marker-mouseover', marker);
+  _markerMouseOver(marker) {
+    this._eventAggregator.publish('aurelia-plugins:google-maps:marker-mouseover', marker);
     marker.setZIndex(window.google.maps.Marker.MAX_ZINDEX + 1);
   }
 
-  markerPan(marker) {
-    this.map.setZoom(17);
-    this.map.panTo(marker.position);
+  _markerPan(marker) {
+    this._map._setZoom(17);
+    this._map.panTo(marker.position);
   }
 
-  markerUnhighlight(marker) {
+  _markerUnhighlight(marker) {
     marker.setIcon(marker.custom.defaultIcon);
   }
 
-  publishBoundsChangedEvent() {
-    const bounds = this.map.getBounds();
-    if (bounds) this.eventAggregator.publish('aurelia-plugins:google-maps:map-bounds-changed', bounds);
+  _publishBoundsChangedEvent() {
+    const bounds = this._map.getBounds();
+    if (bounds) this._eventAggregator.publish('aurelia-plugins:google-maps:map-bounds-changed', bounds);
   }
 
-  spliceMarkers(markers) {
+  _spliceMarkers(markers) {
     if (!markers.length) return;
     markers.forEach(marker => {
-      if (marker.addedCount) this.createMarker(this.markers[marker.index]);
-      if (marker.removed.length) return;
+      if (marker.addedCount) this._createMarker(this.markers[marker.index]);
+      if (!marker.removed.length) return;
       marker.removed.forEach(removed => {
-        for (let i = 0, j = this.mapMarkers.length; i < j; i++) {
-          const rendered = this.mapMarkers[i];
+        for (let i = 0, j = this._markers.length; i < j; i++) {
+          const rendered = this._markers[i];
           if (rendered.position.lat().toFixed(12) !== removed.latitude.toFixed(12) || rendered.position.lng().toFixed(12) !== removed.longitude.toFixed(12)) continue;
           rendered.setMap(null);
-          this.mapMarkers.splice(i, 1);
+          this._markers.splice(i, 1);
           break;
         }
       });

@@ -24,18 +24,6 @@ bower install aurelia-plugins-google-maps
 
 ## Configuration
 
-Add to `package.json`
-
-```json
-  "aurelia": {
-    "build": {
-      "resources": [
-        "aurelia-plugins-google-maps"
-      ]
-    }
-  }
-```
-
 Inside of your `main.js` or `main.ts` file simply load the plugin inside of the configure method using `.plugin()`.
 
 ```javascript
@@ -100,9 +88,9 @@ Add a `zoom` attribute and supply a value to choose an appropriate zoom level. B
 Set to one of the following Google Basic Map Type. See the [Google Maps documentation](<https://developers.google.com/maps/documentation/javascript/maptypes#BasicMapTypes>).
 
 * HYBRID - This map type displays a transparent layer of major streets on satellite images.
-* ROADMAP -	This map type displays a normal street map. (This is the default map type.)
-* SATELLITE -	This map type displays satellite images.
-* TERRAIN	- This map type displays maps with physical features such as terrain and vegetation.
+* ROADMAP - This map type displays a normal street map. (This is the default map type.)
+* SATELLITE - This map type displays satellite images.
+* TERRAIN - This map type displays maps with physical features such as terrain and vegetation.
 
 ```html
 <aup-google-maps latitude="51.037861" longitude="4.240528" map-type-id="HYBRID"></aup-google-maps>
@@ -121,8 +109,8 @@ When you add `options` to the config, these options are used on all instances of
 export class App {
   constructor() {}
 
-  options1: { panControl: true, panControlOptions: { position: 9 } };
-  options2: { styles: [/* add your styles here */] };
+  options1 = { panControl: true, panControlOptions: { position: 9 } };
+  options2 = { styles: [/* add your styles here */] };
 }
 ```
 
@@ -138,7 +126,7 @@ Markers can be bound to `<aup-google-maps>` with the `markers` attribute. The ma
 export class App {
   constructor() {}
 
-  const myMarkers = [
+  myMarkers = [
     {
       animation: google.maps.Animation.BOUNCE,
       custom: { id: 1234, ... },
@@ -167,7 +155,7 @@ export class App {
 * `label` (optional) - string|MarkerLabel - see [Google Maps documentation](<https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions>)
 * `title` (optional) - string - see [Google Maps documentation](<https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions>)
 * `custom` (optional) - object - store arbitrary data (e.g. an `id` field) in this object, retrieve it from the `aurelia-plugins:google-maps:marker-click` event payload
-* `animation` (optional)  - google.maps.Animation constant - see [Google Maps documentation](<https://developers.google.com/maps/documentation/javascript/3.exp/reference#Animation>)
+* `animation` (optional) - google.maps.Animation constant - see [Google Maps documentation](<https://developers.google.com/maps/documentation/javascript/3.exp/reference#Animation>)
 * `infoWindow` (optional) - object - if set, the `aurelia-plugins:google-maps:marker-click` event will not be called, instead an infoWindow containing the given content will be shown - see [Google Maps documentation](<https://developers.google.com/maps/documentation/javascript/infowindows>)
   * `content` (required) - string|Node - content to display in the InfoWindow. This can be an HTML element, a plain-text string, or a string containing HTML. 
   * `pixelOffset` (optional) - google.maps.Size - the offset, in pixels, of the tip of the info window from the point on the map at whose geographical coordinates the info window is anchored.
