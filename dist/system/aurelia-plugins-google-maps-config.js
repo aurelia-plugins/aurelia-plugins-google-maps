@@ -1,36 +1,35 @@
-System.register([], function (_export, _context) {
-  "use strict";
+'use strict';
 
-  return {
-    setters: [],
-    execute: function () {
-      let Config = class Config {
-        constructor() {
-          this._config = {
-            apiScriptLoadedEvent: 'aurelia-plugins:google-places-autocomplete:api-script-loaded',
-            key: '',
-            language: 'en',
-            libraries: 'geometry',
-            loadApiScript: true,
-            options: {}
-          };
-        }
+exports.__esModule = true;
 
-        get(key) {
-          return this._config[key];
-        }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-        options(obj) {
-          Object.assign(this._config, obj);
-        }
+var Config = exports.Config = function () {
+  function Config() {
+    _classCallCheck(this, Config);
 
-        set(key, value) {
-          this._config[key] = value;
-          return this._config[key];
-        }
-      };
+    this._config = {
+      apiScriptLoadedEvent: 'aurelia-plugins:google-places-autocomplete:api-script-loaded',
+      key: '',
+      language: 'en',
+      libraries: 'geometry',
+      loadApiScript: true,
+      options: {}
+    };
+  }
 
-      _export('Config', Config);
-    }
+  Config.prototype.get = function get(key) {
+    return this._config[key];
   };
-});
+
+  Config.prototype.options = function options(obj) {
+    Object.assign(this._config, obj);
+  };
+
+  Config.prototype.set = function set(key, value) {
+    this._config[key] = value;
+    return this._config[key];
+  };
+
+  return Config;
+}();
