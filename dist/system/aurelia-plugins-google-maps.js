@@ -1,12 +1,21 @@
 'use strict';
 
-exports.__esModule = true;
-exports.configure = configure;
+System.register(['./aurelia-plugins-google-maps-config'], function (_export, _context) {
+  "use strict";
 
-var _aureliaPluginsGoogleMapsConfig = require('./aurelia-plugins-google-maps-config');
+  var Config;
+  function configure(aurelia, configCallback) {
+    var instance = aurelia.container.get(Config);
+    if (configCallback !== undefined && typeof configCallback === 'function') configCallback(instance);
+    aurelia.globalResources('./aurelia-plugins-google-maps-element');
+  }
 
-function configure(aurelia, configCallback) {
-  var instance = aurelia.container.get(_aureliaPluginsGoogleMapsConfig.Config);
-  if (configCallback !== undefined && typeof configCallback === 'function') configCallback(instance);
-  aurelia.globalResources('./aurelia-plugins-google-maps-element');
-}
+  _export('configure', configure);
+
+  return {
+    setters: [function (_aureliaPluginsGoogleMapsConfig) {
+      Config = _aureliaPluginsGoogleMapsConfig.Config;
+    }],
+    execute: function () {}
+  };
+});

@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.GoogleMaps = undefined;
 
 var _dec, _dec2, _dec3, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8;

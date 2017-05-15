@@ -51,7 +51,11 @@ export async function configure(aurelia) {
 
 ## Usage
 
-Once Google Maps is configured, to use it simply add the custom element `<aup-google-maps></aup-google-maps>` in your view.
+Once Google Maps is configured, to use it simply add the custom element `<aup-google-maps></aup-google-maps>` in your view. Do not forgot to have some minimal css for the `<aup-google-maps>`.
+
+```css
+aup-google-maps { display: block; height: 100vh; width: 100%; }
+```
 
 ### Google Maps API loaded
 
