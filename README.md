@@ -40,7 +40,8 @@ export async function configure(aurelia) {
         language: 'en', // see https://developers.google.com/maps/documentation/javascript/localization
         libraries: 'geometry', // see https://developers.google.com/maps/documentation/javascript/libraries
         loadApiScript: true|false, // whether or not the <script> tag of the Google Maps API should be loaded
-        options: { panControl: true, panControlOptions: { position: 9 } } // see https://developers.google.com/maps/documentation/javascript/3.exp/reference#MapOptions
+        options: { panControl: true, panControlOptions: { position: 9 } }, // see https://developers.google.com/maps/documentation/javascript/3.exp/reference#MapOptions
+        region: 'US' // see https://developers.google.com/maps/documentation/javascript/localization#Region
       });
     });
 
