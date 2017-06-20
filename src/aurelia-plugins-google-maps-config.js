@@ -11,7 +11,8 @@ export class Config {
       language: 'en',
       libraries: 'geometry',
       loadApiScript: true,
-      options: {}
+      options: {},
+      region: 'US'
     };
   }
 

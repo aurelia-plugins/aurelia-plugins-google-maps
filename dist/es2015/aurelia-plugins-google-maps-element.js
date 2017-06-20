@@ -276,7 +276,7 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
       const script = document.createElement('script');
       script.async = true;
       script.defer = true;
-      script.src = `https://maps.googleapis.com/maps/api/js?callback=aureliaPluginsGoogleMapsCallback&key=${this._config.get('key')}&language=${this._config.get('language')}&libraries=${this._config.get('libraries')}`;
+      script.src = `https://maps.googleapis.com/maps/api/js?callback=aureliaPluginsGoogleMapsCallback&key=${this._config.get('key')}&language=${this._config.get('language')}&libraries=${this._config.get('libraries')}&region=${this._config.get('region')}`;
       script.type = 'text/javascript';
       document.body.appendChild(script);
       this._scriptPromise = new Promise((resolve, reject) => {

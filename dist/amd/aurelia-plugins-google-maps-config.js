@@ -21,7 +21,8 @@ define(['exports'], function (exports) {
         language: 'en',
         libraries: 'geometry',
         loadApiScript: true,
-        options: {}
+        options: {},
+        region: 'US'
       };
     }
 

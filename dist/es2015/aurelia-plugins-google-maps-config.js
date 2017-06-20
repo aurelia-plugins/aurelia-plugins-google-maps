@@ -7,7 +7,8 @@ export let Config = class Config {
       language: 'en',
       libraries: 'geometry',
       loadApiScript: true,
-      options: {}
+      options: {},
+      region: 'US'
     };
   }
 

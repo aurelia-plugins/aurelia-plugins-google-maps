@@ -24,7 +24,8 @@ System.register([], function (_export, _context) {
             language: 'en',
             libraries: 'geometry',
             loadApiScript: true,
-            options: {}
+            options: {},
+            region: 'US'
           };
         }
 

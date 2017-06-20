@@ -16,7 +16,8 @@ var Config = exports.Config = function () {
       language: 'en',
       libraries: 'geometry',
       loadApiScript: true,
-      options: {}
+      options: {},
+      region: 'US'
     };
   }
 
