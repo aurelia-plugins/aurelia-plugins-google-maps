@@ -1,6 +1,6 @@
 {
   "name": "aurelia-plugins-google-maps",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "A Google Maps plugin for Aurelia.",
   "keywords": [
     "aurelia",
@@ -12,7 +12,7 @@
   "homepage": "https://github.com/aurelia-plugins/aurelia-plugins-google-maps",
   "license": "MIT",
   "authors": [
-    "Bart Lenaerts <bart@codious.be> (http://codious.be/)"
+    "Bart Lenaerts <bart@codious.io> (http://codious.io/)"
   ],
   "moduleType": "node",
   "main": "dist/commonjs/aurelia-plugins-google-maps.js",

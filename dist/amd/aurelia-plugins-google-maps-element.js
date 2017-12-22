@@ -440,7 +440,8 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
         label: marker.label,
         map: this._map,
         position: new window.google.maps.LatLng(parseFloat(marker.latitude), parseFloat(marker.longitude)),
-        title: marker.title
+        title: marker.title,
+        zIndex: marker.zIndex
       });
       if (marker.custom) mapMarker.custom = marker.custom;
       if (marker.infoWindow) {
