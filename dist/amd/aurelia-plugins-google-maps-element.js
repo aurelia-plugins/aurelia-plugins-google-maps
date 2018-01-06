@@ -92,6 +92,7 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
 
       _classCallCheck(this, GoogleMaps);
 
+      this._init = { address: false, latitude: false, longitude: false };
       this._map = null;
       this._mapPromise = null;
       this._mapResolve = null;
@@ -162,6 +163,14 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
                 return _context2.abrupt('return');
 
               case 4:
+                if (this._init.address) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                this._init.address = true;return _context2.abrupt('return');
+
+              case 7:
                 this._taskQueue.queueMicroTask(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                   return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
@@ -181,7 +190,7 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
                   }, _callee, _this2);
                 })));
 
-              case 5:
+              case 8:
               case 'end':
                 return _context2.stop();
             }
@@ -216,11 +225,19 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
                 return _context3.abrupt('return');
 
               case 4:
+                if (this._init.latitude) {
+                  _context3.next = 7;
+                  break;
+                }
+
+                this._init.latitude = true;return _context3.abrupt('return');
+
+              case 7:
                 this._taskQueue.queueMicroTask(function () {
                   return _this3._setCenter(newValue, null);
                 });
 
-              case 5:
+              case 8:
               case 'end':
                 return _context3.stop();
             }
@@ -255,11 +272,19 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
                 return _context4.abrupt('return');
 
               case 4:
+                if (this._init.longitude) {
+                  _context4.next = 7;
+                  break;
+                }
+
+                this._init.longitude = true;return _context4.abrupt('return');
+
+              case 7:
                 this._taskQueue.queueMicroTask(function () {
                   return _this4._setCenter(null, newValue);
                 });
 
-              case 5:
+              case 8:
               case 'end':
                 return _context4.stop();
             }

@@ -4,6 +4,11 @@ export declare class GoogleMaps {
     _element: any;
     _eventAggregator: any;
     _taskQueue: any;
+    _init: {
+        address: boolean;
+        latitude: boolean;
+        longitude: boolean;
+    };
     _map: any;
     _mapPromise: any;
     _mapResolve: any;

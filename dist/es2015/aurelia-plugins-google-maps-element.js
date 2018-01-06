@@ -55,6 +55,7 @@ import { Config } from './aurelia-plugins-google-maps-config';
 
 export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView(), _dec3 = inject(Element, BindingEngine, Config, EventAggregator, TaskQueue), _dec(_class = _dec2(_class = _dec3(_class = (_class2 = class GoogleMaps {
   constructor(element, bindingEngine, config, eventAggregator, taskQueue) {
+    this._init = { address: false, latitude: false, longitude: false };
     this._map = null;
     this._mapPromise = null;
     this._mapResolve = null;
@@ -105,6 +106,9 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
     return _asyncToGenerator(function* () {
       yield _this._mapPromise;
       if (!newValue) return;
+      if (!_this._init.address) {
+        _this._init.address = true;return;
+      }
       _this._taskQueue.queueMicroTask(_asyncToGenerator(function* () {
         return yield _this._setAddress(newValue);
       }));
@@ -117,6 +121,9 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
     return _asyncToGenerator(function* () {
       yield _this2._mapPromise;
       if (!newValue) return;
+      if (!_this2._init.latitude) {
+        _this2._init.latitude = true;return;
+      }
       _this2._taskQueue.queueMicroTask(function () {
         return _this2._setCenter(newValue, null);
       });
@@ -129,6 +136,9 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
     return _asyncToGenerator(function* () {
       yield _this3._mapPromise;
       if (!newValue) return;
+      if (!_this3._init.longitude) {
+        _this3._init.longitude = true;return;
+      }
       _this3._taskQueue.queueMicroTask(function () {
         return _this3._setCenter(null, newValue);
       });

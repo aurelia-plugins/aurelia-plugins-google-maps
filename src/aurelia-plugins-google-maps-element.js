@@ -24,6 +24,7 @@ export class GoogleMaps {
   _taskQueue;
 
   // PRIVATE PROPERTIES (CUSTOM)
+  _init = { address: false, latitude: false, longitude: false };
   _map = null;
   _mapPromise = null;
   _mapResolve = null;
@@ -62,18 +63,21 @@ export class GoogleMaps {
   async addressChanged(newValue) {
     await this._mapPromise;
     if (!newValue) return;
+    if (!this._init.address) { this._init.address = true; return; }
     this._taskQueue.queueMicroTask(async () => await this._setAddress(newValue));
   }
 
   async latitudeChanged(newValue) {
     await this._mapPromise;
     if (!newValue) return;
+    if (!this._init.latitude) { this._init.latitude = true; return; }
     this._taskQueue.queueMicroTask(() => this._setCenter(newValue, null));
   }
 
   async longitudeChanged(newValue) {
     await this._mapPromise;
     if (!newValue) return;
+    if (!this._init.longitude) { this._init.longitude = true; return; }
     this._taskQueue.queueMicroTask(() => this._setCenter(null, newValue));
   }
 

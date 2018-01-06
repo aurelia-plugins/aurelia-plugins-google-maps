@@ -106,6 +106,7 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
 
           _classCallCheck(this, GoogleMaps);
 
+          this._init = { address: false, latitude: false, longitude: false };
           this._map = null;
           this._mapPromise = null;
           this._mapResolve = null;
@@ -176,6 +177,14 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
                     return _context3.abrupt('return');
 
                   case 4:
+                    if (this._init.address) {
+                      _context3.next = 7;
+                      break;
+                    }
+
+                    this._init.address = true;return _context3.abrupt('return');
+
+                  case 7:
                     this._taskQueue.queueMicroTask(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                       return regeneratorRuntime.wrap(function _callee$(_context2) {
                         while (1) {
@@ -195,7 +204,7 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
                       }, _callee, _this2);
                     })));
 
-                  case 5:
+                  case 8:
                   case 'end':
                     return _context3.stop();
                 }
@@ -230,11 +239,19 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
                     return _context4.abrupt('return');
 
                   case 4:
+                    if (this._init.latitude) {
+                      _context4.next = 7;
+                      break;
+                    }
+
+                    this._init.latitude = true;return _context4.abrupt('return');
+
+                  case 7:
                     this._taskQueue.queueMicroTask(function () {
                       return _this3._setCenter(newValue, null);
                     });
 
-                  case 5:
+                  case 8:
                   case 'end':
                     return _context4.stop();
                 }
@@ -269,11 +286,19 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
                     return _context5.abrupt('return');
 
                   case 4:
+                    if (this._init.longitude) {
+                      _context5.next = 7;
+                      break;
+                    }
+
+                    this._init.longitude = true;return _context5.abrupt('return');
+
+                  case 7:
                     this._taskQueue.queueMicroTask(function () {
                       return _this4._setCenter(null, newValue);
                     });
 
-                  case 5:
+                  case 8:
                   case 'end':
                     return _context5.stop();
                 }
