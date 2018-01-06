@@ -105,9 +105,9 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
     return _asyncToGenerator(function* () {
       yield _this._mapPromise;
       if (!newValue) return;
-      _this._taskQueue.queueMicroTask(function () {
-        return _this._setAddress(newValue);
-      });
+      _this._taskQueue.queueMicroTask(_asyncToGenerator(function* () {
+        return yield _this._setAddress(newValue);
+      }));
     })();
   }
 
@@ -183,11 +183,12 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
   }
 
   _setAddress(address) {
-    const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ address: address || this.address }, (results, status) => {
-      if (status !== window.google.maps.GeocoderStatus.OK) return;
-      this._setCenter(results[0].geometry.location.lat(), results[0].geometry.location.lng());
-    });
+    var _this7 = this;
+
+    return _asyncToGenerator(function* () {
+      const result = yield _this7._geocode(address);
+      _this7._setCenter(result.geometry.location.lat(), result.geometry.location.lng());
+    })();
   }
 
   _getCenter(latitude, longitude) {
@@ -246,23 +247,35 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
     this._markers.push(mapMarker);
   }
 
+  _geocode(address) {
+    return new Promise((resolve, reject) => {
+      new window.google.maps.Geocoder().geocode({ address: address }, (results, status) => {
+        if (status !== window.google.maps.GeocoderStatus.OK) return reject();
+        this._eventAggregator.publish('aurelia-plugins:google-maps:address-geocoded', results);
+        resolve(results[0]);
+      });
+    });
+  }
+
   _initialize() {
-    var _this7 = this;
+    var _this8 = this;
 
     return _asyncToGenerator(function* () {
-      yield _this7._scriptPromise;
-      const options = Object.assign(_this7.options || _this7._config.get('options'), { center: _this7._getCenter(), mapTypeId: _this7._getMapTypeId(), zoom: _this7._getZoom() });
-      _this7._map = new window.google.maps.Map(_this7._element, options);
-      _this7._eventAggregator.publish('aurelia-plugins:google-maps:map-created', _this7._map);
-      _this7._mapResolve();
-      _this7._map.addListener('click', function (event) {
-        return _this7._mapClick(event);
+      yield _this8._scriptPromise;
+      const result = _this8.address && !_this8.latitude && !_this8.longitude ? yield _this8._geocode(_this8.address) : undefined;
+      const center = result ? _this8._getCenter(result.geometry.location.lat(), result.geometry.location.lng()) : _this8._getCenter();
+      const options = Object.assign(_this8.options || _this8._config.get('options'), { center: center, mapTypeId: _this8._getMapTypeId(), zoom: _this8._getZoom() });
+      _this8._map = new window.google.maps.Map(_this8._element, options);
+      _this8._eventAggregator.publish('aurelia-plugins:google-maps:map-created', _this8._map);
+      _this8._mapResolve();
+      _this8._map.addListener('click', function (event) {
+        return _this8._mapClick(event);
       });
-      _this7._map.addListener('dragend', function () {
-        return _this7._publishBoundsChangedEvent();
+      _this8._map.addListener('dragend', function () {
+        return _this8._publishBoundsChangedEvent();
       });
-      _this7._map.addListener('zoom_changed', function () {
-        return _this7._publishBoundsChangedEvent();
+      _this8._map.addListener('zoom_changed', function () {
+        return _this8._publishBoundsChangedEvent();
       });
     })();
   }

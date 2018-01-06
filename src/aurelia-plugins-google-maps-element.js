@@ -62,7 +62,7 @@ export class GoogleMaps {
   async addressChanged(newValue) {
     await this._mapPromise;
     if (!newValue) return;
-    this._taskQueue.queueMicroTask(() => this._setAddress(newValue));
+    this._taskQueue.queueMicroTask(async () => await this._setAddress(newValue));
   }
 
   async latitudeChanged(newValue) {
@@ -103,12 +103,9 @@ export class GoogleMaps {
   }
 
   // PRIVATE PROPERTY METHODS
-  _setAddress(address) {
-    const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ address: address || this.address }, (results, status) => {
-      if (status !== window.google.maps.GeocoderStatus.OK) return;
-      this._setCenter(results[0].geometry.location.lat(), results[0].geometry.location.lng());
-    });
+  async _setAddress(address) {
+    const result = await this._geocode(address);
+    this._setCenter(result.geometry.location.lat(), result.geometry.location.lng());
   }
 
   _getCenter(latitude, longitude) {
@@ -164,9 +161,21 @@ export class GoogleMaps {
     this._markers.push(mapMarker);
   }
 
+  _geocode(address) {
+    return new Promise((resolve, reject) => {
+      new window.google.maps.Geocoder().geocode({ address: address }, (results, status) => {
+        if (status !== window.google.maps.GeocoderStatus.OK) return reject();
+        this._eventAggregator.publish('aurelia-plugins:google-maps:address-geocoded', results);
+        resolve(results[0]);
+      });
+    });
+  }
+
   async _initialize() {
     await this._scriptPromise;
-    const options = Object.assign(this.options || this._config.get('options'), { center: this._getCenter(), mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
+    const result = this.address && !this.latitude && !this.longitude ? await this._geocode(this.address) : undefined;
+    const center = result ? this._getCenter(result.geometry.location.lat(), result.geometry.location.lng()) : this._getCenter();
+    const options = Object.assign(this.options || this._config.get('options'), { center: center, mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
     this._map = new window.google.maps.Map(this._element, options);
     this._eventAggregator.publish('aurelia-plugins:google-maps:map-created', this._map);
     this._mapResolve();

@@ -205,6 +205,8 @@ Automatically close the previous opened infoWindow when opening a new one, or wh
 
 In addition to the `map-click` event mentioned above, there are several events propagated via the Aurelia Event Aggregator framework:
 
+* `aurelia-plugins:google-maps:address-geocoded` - published when an address was geocoded, payload is the result from the `Google Maps Geocoder`
+
 * `aurelia-plugins:google-maps:api-script-loaded` - published when the Google Maps API is completely loaded, a `promise` is returned as payload.
 
 * `aurelia-plugins:google-maps:map-bounds-changed` - published when the map is dragged or zoomed, payload is the new map bounds as a `LatLngBounds` object.

@@ -157,47 +157,8 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
         }
 
         GoogleMaps.prototype.addressChanged = function () {
-          var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(newValue) {
+          var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(newValue) {
             var _this2 = this;
-
-            return regeneratorRuntime.wrap(function _callee$(_context2) {
-              while (1) {
-                switch (_context2.prev = _context2.next) {
-                  case 0:
-                    _context2.next = 2;
-                    return this._mapPromise;
-
-                  case 2:
-                    if (newValue) {
-                      _context2.next = 4;
-                      break;
-                    }
-
-                    return _context2.abrupt('return');
-
-                  case 4:
-                    this._taskQueue.queueMicroTask(function () {
-                      return _this2._setAddress(newValue);
-                    });
-
-                  case 5:
-                  case 'end':
-                    return _context2.stop();
-                }
-              }
-            }, _callee, this);
-          }));
-
-          function addressChanged(_x) {
-            return _ref.apply(this, arguments);
-          }
-
-          return addressChanged;
-        }();
-
-        GoogleMaps.prototype.latitudeChanged = function () {
-          var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(newValue) {
-            var _this3 = this;
 
             return regeneratorRuntime.wrap(function _callee2$(_context3) {
               while (1) {
@@ -215,9 +176,24 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
                     return _context3.abrupt('return');
 
                   case 4:
-                    this._taskQueue.queueMicroTask(function () {
-                      return _this3._setCenter(newValue, null);
-                    });
+                    this._taskQueue.queueMicroTask(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                      return regeneratorRuntime.wrap(function _callee$(_context2) {
+                        while (1) {
+                          switch (_context2.prev = _context2.next) {
+                            case 0:
+                              _context2.next = 2;
+                              return _this2._setAddress(newValue);
+
+                            case 2:
+                              return _context2.abrupt('return', _context2.sent);
+
+                            case 3:
+                            case 'end':
+                              return _context2.stop();
+                          }
+                        }
+                      }, _callee, _this2);
+                    })));
 
                   case 5:
                   case 'end':
@@ -227,16 +203,16 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
             }, _callee2, this);
           }));
 
-          function latitudeChanged(_x2) {
-            return _ref2.apply(this, arguments);
+          function addressChanged(_x) {
+            return _ref.apply(this, arguments);
           }
 
-          return latitudeChanged;
+          return addressChanged;
         }();
 
-        GoogleMaps.prototype.longitudeChanged = function () {
+        GoogleMaps.prototype.latitudeChanged = function () {
           var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(newValue) {
-            var _this4 = this;
+            var _this3 = this;
 
             return regeneratorRuntime.wrap(function _callee3$(_context4) {
               while (1) {
@@ -255,7 +231,7 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
 
                   case 4:
                     this._taskQueue.queueMicroTask(function () {
-                      return _this4._setCenter(null, newValue);
+                      return _this3._setCenter(newValue, null);
                     });
 
                   case 5:
@@ -266,16 +242,16 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
             }, _callee3, this);
           }));
 
-          function longitudeChanged(_x3) {
+          function latitudeChanged(_x2) {
             return _ref3.apply(this, arguments);
           }
 
-          return longitudeChanged;
+          return latitudeChanged;
         }();
 
-        GoogleMaps.prototype.mapTypeIdChanged = function () {
+        GoogleMaps.prototype.longitudeChanged = function () {
           var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(newValue) {
-            var _this5 = this;
+            var _this4 = this;
 
             return regeneratorRuntime.wrap(function _callee4$(_context5) {
               while (1) {
@@ -294,7 +270,7 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
 
                   case 4:
                     this._taskQueue.queueMicroTask(function () {
-                      return _this5._setMapTypeId(newValue);
+                      return _this4._setCenter(null, newValue);
                     });
 
                   case 5:
@@ -305,16 +281,16 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
             }, _callee4, this);
           }));
 
-          function mapTypeIdChanged(_x4) {
+          function longitudeChanged(_x3) {
             return _ref4.apply(this, arguments);
           }
 
-          return mapTypeIdChanged;
+          return longitudeChanged;
         }();
 
-        GoogleMaps.prototype.markersChanged = function () {
+        GoogleMaps.prototype.mapTypeIdChanged = function () {
           var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(newValue) {
-            var _this6 = this;
+            var _this5 = this;
 
             return regeneratorRuntime.wrap(function _callee5$(_context6) {
               while (1) {
@@ -324,12 +300,51 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
                     return this._mapPromise;
 
                   case 2:
-                    if (!(!newValue || !newValue.length)) {
+                    if (newValue) {
                       _context6.next = 4;
                       break;
                     }
 
                     return _context6.abrupt('return');
+
+                  case 4:
+                    this._taskQueue.queueMicroTask(function () {
+                      return _this5._setMapTypeId(newValue);
+                    });
+
+                  case 5:
+                  case 'end':
+                    return _context6.stop();
+                }
+              }
+            }, _callee5, this);
+          }));
+
+          function mapTypeIdChanged(_x4) {
+            return _ref5.apply(this, arguments);
+          }
+
+          return mapTypeIdChanged;
+        }();
+
+        GoogleMaps.prototype.markersChanged = function () {
+          var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(newValue) {
+            var _this6 = this;
+
+            return regeneratorRuntime.wrap(function _callee6$(_context7) {
+              while (1) {
+                switch (_context7.prev = _context7.next) {
+                  case 0:
+                    _context7.next = 2;
+                    return this._mapPromise;
+
+                  case 2:
+                    if (!(!newValue || !newValue.length)) {
+                      _context7.next = 4;
+                      break;
+                    }
+
+                    return _context7.abrupt('return');
 
                   case 4:
                     if (this._subscription) {
@@ -349,37 +364,37 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
 
                   case 8:
                   case 'end':
-                    return _context6.stop();
+                    return _context7.stop();
                 }
               }
-            }, _callee5, this);
+            }, _callee6, this);
           }));
 
           function markersChanged(_x5) {
-            return _ref5.apply(this, arguments);
+            return _ref6.apply(this, arguments);
           }
 
           return markersChanged;
         }();
 
         GoogleMaps.prototype.zoomChanged = function () {
-          var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(newValue) {
+          var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(newValue) {
             var _this7 = this;
 
-            return regeneratorRuntime.wrap(function _callee6$(_context7) {
+            return regeneratorRuntime.wrap(function _callee7$(_context8) {
               while (1) {
-                switch (_context7.prev = _context7.next) {
+                switch (_context8.prev = _context8.next) {
                   case 0:
-                    _context7.next = 2;
+                    _context8.next = 2;
                     return this._mapPromise;
 
                   case 2:
                     if (newValue) {
-                      _context7.next = 4;
+                      _context8.next = 4;
                       break;
                     }
 
-                    return _context7.abrupt('return');
+                    return _context8.abrupt('return');
 
                   case 4:
                     this._taskQueue.queueMicroTask(function () {
@@ -388,28 +403,48 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
 
                   case 5:
                   case 'end':
-                    return _context7.stop();
+                    return _context8.stop();
                 }
               }
-            }, _callee6, this);
+            }, _callee7, this);
           }));
 
           function zoomChanged(_x6) {
-            return _ref6.apply(this, arguments);
+            return _ref7.apply(this, arguments);
           }
 
           return zoomChanged;
         }();
 
-        GoogleMaps.prototype._setAddress = function _setAddress(address) {
-          var _this8 = this;
+        GoogleMaps.prototype._setAddress = function () {
+          var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(address) {
+            var result;
+            return regeneratorRuntime.wrap(function _callee8$(_context9) {
+              while (1) {
+                switch (_context9.prev = _context9.next) {
+                  case 0:
+                    _context9.next = 2;
+                    return this._geocode(address);
 
-          var geocoder = new window.google.maps.Geocoder();
-          geocoder.geocode({ address: address || this.address }, function (results, status) {
-            if (status !== window.google.maps.GeocoderStatus.OK) return;
-            _this8._setCenter(results[0].geometry.location.lat(), results[0].geometry.location.lng());
-          });
-        };
+                  case 2:
+                    result = _context9.sent;
+
+                    this._setCenter(result.geometry.location.lat(), result.geometry.location.lng());
+
+                  case 4:
+                  case 'end':
+                    return _context9.stop();
+                }
+              }
+            }, _callee8, this);
+          }));
+
+          function _setAddress(_x7) {
+            return _ref8.apply(this, arguments);
+          }
+
+          return _setAddress;
+        }();
 
         GoogleMaps.prototype._getCenter = function _getCenter(latitude, longitude) {
           return new window.google.maps.LatLng(parseFloat(latitude || this.latitude), parseFloat(longitude || this.longitude));
@@ -446,7 +481,7 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
         };
 
         GoogleMaps.prototype._createMarker = function _createMarker(marker) {
-          var _this9 = this;
+          var _this8 = this;
 
           var mapMarker = new window.google.maps.Marker({
             animation: marker.animation,
@@ -461,38 +496,69 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
           if (marker.infoWindow) {
             mapMarker.infoWindow = new window.google.maps.InfoWindow({ content: marker.infoWindow.content, pixelOffset: marker.infoWindow.pixelOffset, position: marker.infoWindow.position, maxWidth: marker.infoWindow.maxWidth });
             mapMarker.infoWindow.addListener('domready', function () {
-              return _this9._infoWindowDomReady(mapMarker.infoWindow);
+              return _this8._infoWindowDomReady(mapMarker.infoWindow);
             });
           }
           mapMarker.addListener('click', function () {
-            return _this9._markerClick(mapMarker);
+            return _this8._markerClick(mapMarker);
           });
           mapMarker.addListener('dblclick', function () {
-            return _this9._markerPan(mapMarker);
+            return _this8._markerPan(mapMarker);
           });
           mapMarker.addListener('mouseout', function () {
-            return _this9._markerMouseOut(mapMarker);
+            return _this8._markerMouseOut(mapMarker);
           });
           mapMarker.addListener('mouseover', function () {
-            return _this9._markerMouseOver(mapMarker);
+            return _this8._markerMouseOver(mapMarker);
           });
           this._markers.push(mapMarker);
         };
 
+        GoogleMaps.prototype._geocode = function _geocode(address) {
+          var _this9 = this;
+
+          return new Promise(function (resolve, reject) {
+            new window.google.maps.Geocoder().geocode({ address: address }, function (results, status) {
+              if (status !== window.google.maps.GeocoderStatus.OK) return reject();
+              _this9._eventAggregator.publish('aurelia-plugins:google-maps:address-geocoded', results);
+              resolve(results[0]);
+            });
+          });
+        };
+
         GoogleMaps.prototype._initialize = function () {
-          var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+          var _ref9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
             var _this10 = this;
 
-            var options;
-            return regeneratorRuntime.wrap(function _callee7$(_context8) {
+            var result, center, options;
+            return regeneratorRuntime.wrap(function _callee9$(_context10) {
               while (1) {
-                switch (_context8.prev = _context8.next) {
+                switch (_context10.prev = _context10.next) {
                   case 0:
-                    _context8.next = 2;
+                    _context10.next = 2;
                     return this._scriptPromise;
 
                   case 2:
-                    options = Object.assign(this.options || this._config.get('options'), { center: this._getCenter(), mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
+                    if (!(this.address && !this.latitude && !this.longitude)) {
+                      _context10.next = 8;
+                      break;
+                    }
+
+                    _context10.next = 5;
+                    return this._geocode(this.address);
+
+                  case 5:
+                    _context10.t0 = _context10.sent;
+                    _context10.next = 9;
+                    break;
+
+                  case 8:
+                    _context10.t0 = undefined;
+
+                  case 9:
+                    result = _context10.t0;
+                    center = result ? this._getCenter(result.geometry.location.lat(), result.geometry.location.lng()) : this._getCenter();
+                    options = Object.assign(this.options || this._config.get('options'), { center: center, mapTypeId: this._getMapTypeId(), zoom: this._getZoom() });
 
                     this._map = new window.google.maps.Map(this._element, options);
                     this._eventAggregator.publish('aurelia-plugins:google-maps:map-created', this._map);
@@ -507,16 +573,16 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
                       return _this10._publishBoundsChangedEvent();
                     });
 
-                  case 9:
+                  case 18:
                   case 'end':
-                    return _context8.stop();
+                    return _context10.stop();
                 }
               }
-            }, _callee7, this);
+            }, _callee9, this);
           }));
 
           function _initialize() {
-            return _ref7.apply(this, arguments);
+            return _ref9.apply(this, arguments);
           }
 
           return _initialize;

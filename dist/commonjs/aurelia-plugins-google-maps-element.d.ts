@@ -26,7 +26,7 @@ export declare class GoogleMaps {
     mapTypeIdChanged(newValue: any): Promise<void>;
     markersChanged(newValue: any): Promise<void>;
     zoomChanged(newValue: any): Promise<void>;
-    _setAddress(address: any): void;
+    _setAddress(address: any): Promise<void>;
     _getCenter(latitude: any, longitude: any): any;
     _setCenter(latitude: any, longitude: any): void;
     _getMapTypeId(mapTypeId: any): any;
@@ -34,6 +34,7 @@ export declare class GoogleMaps {
     _getZoom(zoom: any): number;
     _setZoom(zoom: any): void;
     _createMarker(marker: any): void;
+    _geocode(address: any): Promise<{}>;
     _initialize(): Promise<void>;
     _infoWindowDomReady(infoWindow: any): void;
     _loadApiScript(): void;
