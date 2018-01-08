@@ -48,7 +48,7 @@ export declare class GoogleMaps {
     _markerHighlight(marker: any): void;
     _markerMouseOut(marker: any): void;
     _markerMouseOver(marker: any): void;
-    _markerPan(marker: any): void;
+    _markerPan(data: any): void;
     _markerUnhighlight(marker: any): void;
     _publishBoundsChangedEvent(): void;
     _spliceMarkers(markers: any): void;

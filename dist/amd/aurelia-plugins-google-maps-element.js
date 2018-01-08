@@ -130,7 +130,7 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
         return _this._markerHighlight(_this._markers[data.index]);
       });
       this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-pan', function (data) {
-        return _this._markerPan(_this._markers[data.index]);
+        return _this._markerPan(data);
       });
       this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-unhighlight', function (data) {
         return _this._markerUnhighlight(_this._markers[data.index]);
@@ -665,9 +665,11 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
       marker.setZIndex(window.google.maps.Marker.MAX_ZINDEX + 1);
     };
 
-    GoogleMaps.prototype._markerPan = function _markerPan(marker) {
-      this._map.setZoom(17);
+    GoogleMaps.prototype._markerPan = function _markerPan(data) {
+      var marker = this._markers[data.index];
+      this._map.setZoom(data.zoom || 17);
       this._map.panTo(marker.position);
+      if (data.open) this._markerClick(marker);
     };
 
     GoogleMaps.prototype._markerUnhighlight = function _markerUnhighlight(marker) {
