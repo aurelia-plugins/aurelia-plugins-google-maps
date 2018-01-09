@@ -53,6 +53,7 @@ export class GoogleMaps {
     if (!this._config.get('key')) return console.error('No Google API key has been specified.');
     this._mapPromise = new Promise(resolve => { this._mapResolve = resolve; });
     this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-highlight', data => this._markerHighlight(this._markers[data.index]));
+    this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-icon', data => this._markerIcon(data));
     this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-pan', data => this._markerPan(data));
     this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-unhighlight', data => this._markerUnhighlight(this._markers[data.index]));
     if (this._config.get('loadApiScript')) { this._loadApiScript(); this._initialize(); return; }
@@ -246,6 +247,12 @@ export class GoogleMaps {
   _markerHighlight(marker) {
     marker.setIcon(marker.custom.highlightIcon);
     marker.setZIndex(window.google.maps.Marker.MAX_ZINDEX + 1);
+  }
+
+  _markerIcon(data) {
+    const marker = this._markers[data.index];
+    marker.custom = data.custom;
+    marker.setIcon(data.icon);
   }
 
   _markerMouseOut(marker) {

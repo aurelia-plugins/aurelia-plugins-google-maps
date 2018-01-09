@@ -143,6 +143,9 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
           this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-highlight', function (data) {
             return _this._markerHighlight(_this._markers[data.index]);
           });
+          this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-icon', function (data) {
+            return _this._markerIcon(data);
+          });
           this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-pan', function (data) {
             return _this._markerPan(data);
           });
@@ -668,6 +671,12 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
         GoogleMaps.prototype._markerHighlight = function _markerHighlight(marker) {
           marker.setIcon(marker.custom.highlightIcon);
           marker.setZIndex(window.google.maps.Marker.MAX_ZINDEX + 1);
+        };
+
+        GoogleMaps.prototype._markerIcon = function _markerIcon(data) {
+          var marker = this._markers[data.index];
+          marker.custom = data.custom;
+          marker.setIcon(data.icon);
         };
 
         GoogleMaps.prototype._markerMouseOut = function _markerMouseOut(marker) {

@@ -229,6 +229,8 @@ In addition to the `map-click` event mentioned above, there are several events p
 
 * `aurelia-plugins:google-maps:marker-highlight` - in your viewModel publish to this event with the index of the marker in the `markers` array to highlight the marker. Highlighting is done by changing the `icon` property of the marker to the value in the property `custom.highlightIcon`.
 
-* `aurelia-plugins:google-maps:marker-pan` - in your viewModel publish to this event with the index of the marker in the `markers` array to pan and zoom to the marker on the map.
+* `aurelia-plugins:google-maps:marker-icon` - in your viewModel publish to this event with `{ custom: object, icon: object, index: int }` to change the icon (and its highlighted version) of the marker.
+
+* `aurelia-plugins:google-maps:marker-pan` - in your viewModel publish to this event with `{ index: int, open: true|false, zoom: int }` to pan and zoom to the marker on the map, and open the infoWindow.
 
 * `aurelia-plugins:google-maps:marker-unhighlight` - in your viewModel publish to this event with the index of the marker in the `markers` array to remove the highligh of the marker. The `icon` property of the marker is changed to the value in the property `custom.defaultIcon`.

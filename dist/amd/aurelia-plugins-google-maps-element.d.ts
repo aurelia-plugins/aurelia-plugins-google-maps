@@ -46,6 +46,7 @@ export declare class GoogleMaps {
     _mapClick(event: any): void;
     _markerClick(marker: any): void;
     _markerHighlight(marker: any): void;
+    _markerIcon(data: any): void;
     _markerMouseOut(marker: any): void;
     _markerMouseOver(marker: any): void;
     _markerPan(data: any): void;
