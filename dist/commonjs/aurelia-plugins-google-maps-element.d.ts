@@ -45,12 +45,12 @@ export declare class GoogleMaps {
     _loadApiScript(): void;
     _mapClick(event: any): void;
     _markerClick(marker: any): void;
-    _markerHighlight(marker: any): void;
+    _markerHighlight(id: any): void;
     _markerIcon(data: any): void;
     _markerMouseOut(marker: any): void;
     _markerMouseOver(marker: any): void;
     _markerPan(data: any): void;
-    _markerUnhighlight(marker: any): void;
+    _markerUnhighlight(id: any): void;
     _publishBoundsChangedEvent(): void;
     _spliceMarkers(markers: any): void;
 }

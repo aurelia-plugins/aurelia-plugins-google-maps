@@ -140,8 +140,8 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
           this._mapPromise = new Promise(function (resolve) {
             _this._mapResolve = resolve;
           });
-          this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-highlight', function (data) {
-            return _this._markerHighlight(_this._markers[data.index]);
+          this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-highlight', function (id) {
+            return _this._markerHighlight(id);
           });
           this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-icon', function (data) {
             return _this._markerIcon(data);
@@ -149,8 +149,8 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
           this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-pan', function (data) {
             return _this._markerPan(data);
           });
-          this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-unhighlight', function (data) {
-            return _this._markerUnhighlight(_this._markers[data.index]);
+          this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-unhighlight', function (id) {
+            return _this._markerUnhighlight(id);
           });
           if (this._config.get('loadApiScript')) {
             this._loadApiScript();this._initialize();return;
@@ -668,13 +668,20 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
           } else marker.infoWindow.open(this._map, marker);
         };
 
-        GoogleMaps.prototype._markerHighlight = function _markerHighlight(marker) {
+        GoogleMaps.prototype._markerHighlight = function _markerHighlight(id) {
+          var marker = this._markers.find(function (marker) {
+            return marker.custom.id === id;
+          });
+          if (!marker) return;
           marker.setIcon(marker.custom.highlightIcon);
           marker.setZIndex(window.google.maps.Marker.MAX_ZINDEX + 1);
         };
 
         GoogleMaps.prototype._markerIcon = function _markerIcon(data) {
-          var marker = this._markers[data.index];
+          var marker = this._markers.find(function (marker) {
+            return marker.custom.id === data.id;
+          });
+          if (!marker) return;
           marker.custom = data.custom;
           marker.setIcon(data.icon);
         };
@@ -689,14 +696,20 @@ System.register(['aurelia-binding', 'aurelia-dependency-injection', 'aurelia-eve
         };
 
         GoogleMaps.prototype._markerPan = function _markerPan(data) {
-          var marker = this._markers[data.index];
+          var marker = this._markers.find(function (marker) {
+            return marker.custom.id === data.id;
+          });
+          if (!marker) return;
           this._map.setZoom(data.zoom || 17);
           this._map.panTo(marker.position);
           if (data.open) this._markerClick(marker);
         };
 
-        GoogleMaps.prototype._markerUnhighlight = function _markerUnhighlight(marker) {
-          marker.setIcon(marker.custom.defaultIcon);
+        GoogleMaps.prototype._markerUnhighlight = function _markerUnhighlight(id) {
+          var marker = this._markers.find(function (marker) {
+            return marker.custom.id === id;
+          });
+          if (marker) marker.setIcon(marker.custom.defaultIcon);
         };
 
         GoogleMaps.prototype._publishBoundsChangedEvent = function _publishBoundsChangedEvent() {

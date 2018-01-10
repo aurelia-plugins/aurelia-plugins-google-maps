@@ -89,10 +89,10 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
     this._mapPromise = new Promise(resolve => {
       this._mapResolve = resolve;
     });
-    this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-highlight', data => this._markerHighlight(this._markers[data.index]));
+    this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-highlight', id => this._markerHighlight(id));
     this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-icon', data => this._markerIcon(data));
     this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-pan', data => this._markerPan(data));
-    this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-unhighlight', data => this._markerUnhighlight(this._markers[data.index]));
+    this._eventAggregator.subscribe('aurelia-plugins:google-maps:marker-unhighlight', id => this._markerUnhighlight(id));
     if (this._config.get('loadApiScript')) {
       this._loadApiScript();this._initialize();return;
     }
@@ -337,13 +337,16 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
     } else marker.infoWindow.open(this._map, marker);
   }
 
-  _markerHighlight(marker) {
+  _markerHighlight(id) {
+    const marker = this._markers.find(marker => marker.custom.id === id);
+    if (!marker) return;
     marker.setIcon(marker.custom.highlightIcon);
     marker.setZIndex(window.google.maps.Marker.MAX_ZINDEX + 1);
   }
 
   _markerIcon(data) {
-    const marker = this._markers[data.index];
+    const marker = this._markers.find(marker => marker.custom.id === data.id);
+    if (!marker) return;
     marker.custom = data.custom;
     marker.setIcon(data.icon);
   }
@@ -358,14 +361,16 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
   }
 
   _markerPan(data) {
-    const marker = this._markers[data.index];
+    const marker = this._markers.find(marker => marker.custom.id === data.id);
+    if (!marker) return;
     this._map.setZoom(data.zoom || 17);
     this._map.panTo(marker.position);
     if (data.open) this._markerClick(marker);
   }
 
-  _markerUnhighlight(marker) {
-    marker.setIcon(marker.custom.defaultIcon);
+  _markerUnhighlight(id) {
+    const marker = this._markers.find(marker => marker.custom.id === id);
+    if (marker) marker.setIcon(marker.custom.defaultIcon);
   }
 
   _publishBoundsChangedEvent() {
