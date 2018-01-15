@@ -488,7 +488,7 @@ var GoogleMaps = exports.GoogleMaps = (_dec = (0, _aureliaTemplating.customEleme
     });
     if (marker.custom) mapMarker.custom = marker.custom;
     if (marker.infoWindow) {
-      mapMarker.infoWindow = new window.google.maps.InfoWindow({ content: marker.infoWindow.content, pixelOffset: marker.infoWindow.pixelOffset, position: marker.infoWindow.position, maxWidth: marker.infoWindow.maxWidth });
+      mapMarker.infoWindow = new window.google.maps.InfoWindow(marker.infoWindow);
       mapMarker.infoWindow.addListener('domready', function () {
         return _this8._infoWindowDomReady(mapMarker.infoWindow);
       });
