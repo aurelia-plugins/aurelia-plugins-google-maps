@@ -249,6 +249,7 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
     if (marker.custom) mapMarker.custom = marker.custom;
     if (marker.infoWindow) {
       mapMarker.infoWindow = new window.google.maps.InfoWindow(marker.infoWindow);
+      mapMarker.infoWindow.addListener('closeclick', () => this._infoWindowCloseClick(mapMarker.infoWindow));
       mapMarker.infoWindow.addListener('content_changed', () => this._infoWindowContentChanged(mapMarker.infoWindow));
       mapMarker.infoWindow.addListener('domready', () => this._infoWindowDomReady(mapMarker.infoWindow));
     }
@@ -290,6 +291,10 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
         return _this8._publishBoundsChangedEvent();
       });
     })();
+  }
+
+  _infoWindowCloseClick(infoWindow) {
+    this._eventAggregator.publish('aurelia-plugins:google-maps:infowindow-closeclick', infoWindow);
   }
 
   _infoWindowContentChanged(infoWindow) {
