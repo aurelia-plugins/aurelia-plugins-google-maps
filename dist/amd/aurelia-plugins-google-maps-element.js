@@ -509,6 +509,9 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
       if (marker.custom) mapMarker.custom = marker.custom;
       if (marker.infoWindow) {
         mapMarker.infoWindow = new window.google.maps.InfoWindow(marker.infoWindow);
+        mapMarker.infoWindow.addListener('content_changed', function () {
+          return _this8._infoWindowContentChanged(mapMarker.infoWindow);
+        });
         mapMarker.infoWindow.addListener('domready', function () {
           return _this8._infoWindowDomReady(mapMarker.infoWindow);
         });
@@ -601,6 +604,10 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
 
       return _initialize;
     }();
+
+    GoogleMaps.prototype._infoWindowContentChanged = function _infoWindowContentChanged(infoWindow) {
+      this._eventAggregator.publish('aurelia-plugins:google-maps:infowindow-content-changed', infoWindow);
+    };
 
     GoogleMaps.prototype._infoWindowDomReady = function _infoWindowDomReady(infoWindow) {
       this._eventAggregator.publish('aurelia-plugins:google-maps:infowindow-domready', infoWindow);

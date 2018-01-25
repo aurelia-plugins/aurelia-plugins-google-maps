@@ -157,6 +157,7 @@ export class GoogleMaps {
     if (marker.custom) mapMarker.custom = marker.custom;
     if (marker.infoWindow) {
       mapMarker.infoWindow = new window.google.maps.InfoWindow(marker.infoWindow);
+      mapMarker.infoWindow.addListener('content_changed', () => this._infoWindowContentChanged(mapMarker.infoWindow));
       mapMarker.infoWindow.addListener('domready', () => this._infoWindowDomReady(mapMarker.infoWindow));
     }
     mapMarker.addListener('click', () => this._markerClick(mapMarker));
@@ -187,6 +188,10 @@ export class GoogleMaps {
     this._map.addListener('click', event => this._mapClick(event));
     this._map.addListener('dragend', () => this._publishBoundsChangedEvent());
     this._map.addListener('zoom_changed', () => this._publishBoundsChangedEvent());
+  }
+
+  _infoWindowContentChanged(infoWindow) {
+    this._eventAggregator.publish('aurelia-plugins:google-maps:infowindow-content-changed', infoWindow);
   }
 
   _infoWindowDomReady(infoWindow) {

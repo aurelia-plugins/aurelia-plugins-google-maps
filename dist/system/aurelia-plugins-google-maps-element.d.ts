@@ -41,6 +41,7 @@ export declare class GoogleMaps {
     _createMarker(marker: any): void;
     _geocode(address: any): Promise<{}>;
     _initialize(): Promise<void>;
+    _infoWindowContentChanged(infoWindow: any): void;
     _infoWindowDomReady(infoWindow: any): void;
     _loadApiScript(): void;
     _mapClick(event: any): void;
