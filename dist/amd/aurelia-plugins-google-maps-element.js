@@ -374,7 +374,7 @@ define(['exports', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-e
                 newValue.forEach(function (marker) {
                   return _this6._createMarker(marker);
                 });
-                this._eventAggregator.publish('aurelia-plugins:google-maps:markers-changed');
+                this._eventAggregator.publish('aurelia-plugins:google-maps:markers-changed', this._markers);
 
               case 8:
               case 'end':

@@ -98,7 +98,7 @@ export class GoogleMaps {
     }
     this._subscription = this._bindingEngine.collectionObserver(this.markers).subscribe(splices => this._spliceMarkers(splices));
     newValue.forEach(marker => this._createMarker(marker));
-    this._eventAggregator.publish('aurelia-plugins:google-maps:markers-changed');
+    this._eventAggregator.publish('aurelia-plugins:google-maps:markers-changed', this._markers);
   }
 
   async zoomChanged(newValue) {

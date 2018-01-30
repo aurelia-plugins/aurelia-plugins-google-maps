@@ -177,7 +177,7 @@ export let GoogleMaps = (_dec = customElement('aup-google-maps'), _dec2 = noView
       newValue.forEach(function (marker) {
         return _this5._createMarker(marker);
       });
-      _this5._eventAggregator.publish('aurelia-plugins:google-maps:markers-changed');
+      _this5._eventAggregator.publish('aurelia-plugins:google-maps:markers-changed', _this5._markers);
     })();
   }
 
