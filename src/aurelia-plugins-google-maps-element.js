@@ -217,7 +217,7 @@ export class GoogleMaps {
           this._eventAggregator.publish('aurelia-plugins:google-maps:api-script-loaded', this._scriptPromise);
           resolve();
         };
-        script.onerror = error => reject(error);
+        script.onerror = err => reject(err);
       });
     }
     else if (window.google && window.google.maps)
@@ -228,7 +228,7 @@ export class GoogleMaps {
     if (this._element.attributes['map-click.delegate']) {
       let customEvent;
       if (window.CustomEvent)
-        customEvent = new CustomEvent('map-click', { bubbles: true, detail: event });
+        customEvent = new CustomEvent('map-click', { bubbles: true, cancelable: true, detail: event });
       else {
         customEvent = document.createEvent('CustomEvent');
         customEvent.initCustomEvent('map-click', true, true, { data: event });
@@ -297,18 +297,18 @@ export class GoogleMaps {
 
   _spliceMarkers(markers) {
     if (!markers.length) return;
-    markers.forEach(marker => {
+    for (const marker of markers) {
       if (marker.addedCount) this._createMarker(this.markers[marker.index]);
-      if (!marker.removed.length) return;
-      marker.removed.forEach(removed => {
-        for (let i = 0, j = this._markers.length; i < j; i++) {
+      if (!marker.removed.length) continue;
+      for (const removed of marker.removed) {
+        for (let i = 0; i < this._markers.length; i++) {
           const rendered = this._markers[i];
           if (rendered.position.lat().toFixed(12) !== removed.latitude.toFixed(12) || rendered.position.lng().toFixed(12) !== removed.longitude.toFixed(12)) continue;
           rendered.setMap(null);
           this._markers.splice(i, 1);
           break;
         }
-      });
-    });
+      }
+    }
   }
 }

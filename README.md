@@ -10,7 +10,19 @@ A Google Maps plugin for Aurelia.
 npm install aurelia-plugins-google-maps --save
 ```
 
+When using Aurelia CLI add the following dependency to `aurelia.json` as described in the [documentation](http://aurelia.io/docs/build-systems/aurelia-cli#adding-client-libraries-to-your-project):
+
+```json
+{
+  "name": "aurelia-plugins-google-maps",
+  "path": "../node_modules/aurelia-plugins-google-maps/dist/amd",
+  "main": "aurelia-plugins-google-maps"
+}
+```
+
 Add `node_modules/babel-polyfill/dist/polyfill.min.js` to the prepend list in `aurelia.json`. Do not forgot to add `babel-polyfill` to the dependencies in `package.json`.
+
+For projects using Webpack, please add `babel-polyfill` to your `webpack.config.js` as documented by [babeljs.io](https://babeljs.io/docs/usage/polyfill/#usage-in-node--browserify--webpack).
 
 **JSPM**
 
@@ -29,13 +41,15 @@ bower install aurelia-plugins-google-maps
 Inside of your `main.js` or `main.ts` file simply load the plugin inside of the configure method using `.plugin()`.
 
 ```javascript
+import {PLATFORM} from 'aurelia-framework';
+
 export async function configure(aurelia) {
   aurelia.use
     .standardConfiguration()
     .developmentLogging();
 
   aurelia.use
-    .plugin('aurelia-plugins-google-maps', config => {
+    .plugin(PLATFORM.moduleName('aurelia-plugins-google-maps'), config => {
       config.options({
         apiScriptLoadedEvent: 'aurelia-plugins:google-places-autocomplete:api-script-loaded', // if loadApiScript is false, the event that is subscribed to, to know when the Google Maps API is loaded by another plugin
         key: '', // your Google API key retrieved from the Google Developer Console
@@ -47,8 +61,8 @@ export async function configure(aurelia) {
       });
     });
 
-    await aurelia.start();
-    aurelia.setRoot('app');
+  await aurelia.start();
+  aurelia.setRoot('app');
 }
 ```
 
@@ -147,7 +161,8 @@ export class App {
       label: 'My Marker Label',
       latitude: 51.037861,
       longitude: 4.240528,
-      title: 'My Marker Title'
+      title: 'My Marker Title',
+      zIndex: 1000
     },
     { ... }
   ];
@@ -215,15 +230,19 @@ In addition to the `map-click` event mentioned above, there are several events p
 
 * `aurelia-plugins:google-maps:map-created` - published when the map is created, payload is the `Map` object.
 
+* `aurelia-plugins:google-maps:infowindow-closeclick` - published when the infoWindow is closed by clicking the close button, payload is the `InfoWindow` object for the related marker.
+
 * `aurelia-plugins:google-maps:infowindow-domready` - published when the infoWindow is fully loaded, payload is the `InfoWindow` object for the related marker.
 
-* `aurelia-plugins:google-maps:marker-click` - published when a map marker is clicked, payload is the `Marker` object for the clicked marker.
+* `aurelia-plugins:google-maps:infowindow-content-changed` - published when the content of the infoWindow has changed, payload is the `InfoWindow` object for the related marker.
+
+* `aurelia-plugins:google-maps:marker-click` - published when a map marker is clicked (and no InfoWindow is defined for it), payload is the `Marker` object for the clicked marker.
 
 * `aurelia-plugins:google-maps:marker-mouseout` - published when the mouse exits the marker, payload is the `Marker` object for the exited marker.
 
 * `aurelia-plugins:google-maps:marker-mouseover` - published when the mouse enters the marker, payload is the `Marker` object for the entered marker.
 
-* `aurelia-plugins:google-maps:markers-changed` - published when all the markers are added to the map, there is no payload.
+* `aurelia-plugins:google-maps:markers-changed` - published when the array of markers is added of changed, the payload are the array of markers.
 
 #### Subscribed to by aurelia-plugins-google-maps
 
@@ -231,6 +250,6 @@ In addition to the `map-click` event mentioned above, there are several events p
 
 * `aurelia-plugins:google-maps:marker-icon` - in your viewModel publish to this event with `{ custom: object, icon: object, id: string }` to change the icon (and its highlighted version) of the marker.
 
-* `aurelia-plugins:google-maps:marker-pan` - in your viewModel publish to this event with `{ id: string, open: true|false, zoom: int }` to pan and zoom to the marker on the map, and open the infoWindow.
+* `aurelia-plugins:google-maps:marker-pan` - in your viewModel publish to this event with `{ id: string, open: true|false, zoom: int }` to pan and zoom to the marker on the map, and if specified open the infoWindow.
 
 * `aurelia-plugins:google-maps:marker-unhighlight` - in your viewModel publish to this event with the `id` of the marker in the `markers` array to remove the highligh of the marker. The `icon` property of the marker is changed to the value in the property `custom.defaultIcon`.

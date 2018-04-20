@@ -616,8 +616,8 @@ var GoogleMaps = exports.GoogleMaps = (_dec = (0, _aureliaTemplating.customEleme
           _this11._eventAggregator.publish('aurelia-plugins:google-maps:api-script-loaded', _this11._scriptPromise);
           resolve();
         };
-        script.onerror = function (error) {
-          return reject(error);
+        script.onerror = function (err) {
+          return reject(err);
         };
       });
     } else if (window.google && window.google.maps) this._scriptPromise = new Promise(function (resolve) {
@@ -628,7 +628,7 @@ var GoogleMaps = exports.GoogleMaps = (_dec = (0, _aureliaTemplating.customEleme
   GoogleMaps.prototype._mapClick = function _mapClick(event) {
     if (this._element.attributes['map-click.delegate']) {
       var customEvent = void 0;
-      if (window.CustomEvent) customEvent = new CustomEvent('map-click', { bubbles: true, detail: event });else {
+      if (window.CustomEvent) customEvent = new CustomEvent('map-click', { bubbles: true, cancelable: true, detail: event });else {
         customEvent = document.createEvent('CustomEvent');
         customEvent.initCustomEvent('map-click', true, true, { data: event });
       }
@@ -698,22 +698,46 @@ var GoogleMaps = exports.GoogleMaps = (_dec = (0, _aureliaTemplating.customEleme
   };
 
   GoogleMaps.prototype._spliceMarkers = function _spliceMarkers(markers) {
-    var _this12 = this;
-
     if (!markers.length) return;
-    markers.forEach(function (marker) {
-      if (marker.addedCount) _this12._createMarker(_this12.markers[marker.index]);
-      if (!marker.removed.length) return;
-      marker.removed.forEach(function (removed) {
-        for (var i = 0, j = _this12._markers.length; i < j; i++) {
-          var rendered = _this12._markers[i];
+    for (var _iterator = markers, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+      var _ref10;
+
+      if (_isArray) {
+        if (_i >= _iterator.length) break;
+        _ref10 = _iterator[_i++];
+      } else {
+        _i = _iterator.next();
+        if (_i.done) break;
+        _ref10 = _i.value;
+      }
+
+      var marker = _ref10;
+
+      if (marker.addedCount) this._createMarker(this.markers[marker.index]);
+      if (!marker.removed.length) continue;
+      for (var _iterator2 = marker.removed, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+        var _ref11;
+
+        if (_isArray2) {
+          if (_i2 >= _iterator2.length) break;
+          _ref11 = _iterator2[_i2++];
+        } else {
+          _i2 = _iterator2.next();
+          if (_i2.done) break;
+          _ref11 = _i2.value;
+        }
+
+        var removed = _ref11;
+
+        for (var i = 0; i < this._markers.length; i++) {
+          var rendered = this._markers[i];
           if (rendered.position.lat().toFixed(12) !== removed.latitude.toFixed(12) || rendered.position.lng().toFixed(12) !== removed.longitude.toFixed(12)) continue;
           rendered.setMap(null);
-          _this12._markers.splice(i, 1);
+          this._markers.splice(i, 1);
           break;
         }
-      });
-    });
+      }
+    }
   };
 
   return GoogleMaps;
